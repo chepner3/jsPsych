@@ -1926,7 +1926,6 @@ jsPsych.pluginAPI = (function() {
               if (e.key == parameters.valid_responses[i]) {
                 valid_response = true;
               }
-            }
             } else if (e.keyCode == parameters.valid_responses[i]) {
               valid_response = true;
             }
