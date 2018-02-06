@@ -137,9 +137,9 @@ window.jsPsych = (function() {
 
     // below code resets event listeners that may have lingered from
     // a previous incomplete experiment loaded in same DOM.
-    jsPsych.pluginAPI.reset(opts.display_element);
+    jsPsych.pluginAPI.reset(window);
     // create keyboard event listeners
-    jsPsych.pluginAPI.createKeyboardEventListeners(opts.display_element);
+    jsPsych.pluginAPI.createKeyboardEventListeners(window);
     // create listeners for user browser interaction
     jsPsych.data.createInteractionListeners();
 
