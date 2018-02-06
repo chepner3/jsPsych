@@ -1609,6 +1609,26 @@ jsPsych.randomization = (function() {
   module.random = function() {
     return random();
   }
+  
+  function randomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(random() * (max - min)) + min;
+  }
+  
+  module.randomInt = function(min, max) {
+    return randomInt(min, max);
+  }
+  
+  function randomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(random() * (max - min + 1)) + min;
+  }
+  
+  module.randomIntInclusive = function(min, max) {
+    return randomIntInclusive(min, max);
+  }
 
   module.repeat = function(array, repetitions, unpack) {
 
