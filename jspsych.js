@@ -1605,6 +1605,10 @@ jsPsych.randomization = (function() {
       return Math.random();
     }
   }
+  
+  module.random = function() {
+    return random();
+  }
 
   module.repeat = function(array, repetitions, unpack) {
 
