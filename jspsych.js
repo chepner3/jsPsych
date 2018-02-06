@@ -1830,10 +1830,10 @@ jsPsych.pluginAPI = (function() {
     for(var i=0; i<keyboard_listeners.length; i++){
       keyboard_listeners[i].fn(e);
     }
-    held_keys[e.keyCode] = true;
+    held_keys[e.key] = true;
   }
   var root_keyup_listener = function(e){
-    held_keys[e.keyCode] = false;
+    held_keys[e.key] = false;
   }
 
   module.reset = function(root_element){
@@ -1886,14 +1886,10 @@ jsPsych.pluginAPI = (function() {
         if(parameters.valid_responses != jsPsych.NO_KEYS){
           for (var i = 0; i < parameters.valid_responses.length; i++) {
             if (typeof parameters.valid_responses[i] == 'string') {
-              var kc = jsPsych.pluginAPI.convertKeyCharacterToKeyCode(parameters.valid_responses[i]);
-              if (typeof kc !== 'undefined') {
-                if (e.keyCode == kc) {
-                  valid_response = true;
-                }
-              } else {
-                throw new Error('Invalid key string specified for getKeyboardResponse');
+              if (e.key == parameters.valid_responses[i]) {
+                valid_response = true;
               }
+            }
             } else if (e.keyCode == parameters.valid_responses[i]) {
               valid_response = true;
             }
@@ -1903,7 +1899,7 @@ jsPsych.pluginAPI = (function() {
       // check if key was already held down
 
       if (((typeof parameters.allow_held_key == 'undefined') || !parameters.allow_held_key) && valid_response) {
-        if (typeof held_keys[e.keyCode] !== 'undefined' && held_keys[e.keyCode] == true) {
+        if (typeof held_keys[e.key] !== 'undefined' && held_keys[e.key] == true) {
           valid_response = false;
         }
       }
@@ -1911,7 +1907,7 @@ jsPsych.pluginAPI = (function() {
       if (valid_response) {
 
         parameters.callback_function({
-          key: e.keyCode,
+          key: e.key,
           rt: key_time - start_time
         });
 
