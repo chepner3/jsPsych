@@ -122,7 +122,7 @@ window.jsPsych = (function() {
     DOM_target = document.querySelector('#jspsych-content');
 
     // add tabIndex attribute to scope event listeners
-    opts.display_element.tabIndex = 0;
+    // opts.display_element.tabIndex = 0;
 
     // add CSS class to DOM_target
     if(opts.display_element.className.indexOf('jspsych-display-element') == -1){
