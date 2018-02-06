@@ -1592,6 +1592,43 @@ jsPsych.turk = (function() {
 jsPsych.randomization = (function() {
 
   var module = {};
+  
+  var cryptoObj = window.crypto || window.msCrypto;
+  
+  function random() {
+    if (typeof cryptoObj !== 'undefined') {
+      var randomBuffer = new Uint32Array(1);
+      cryptoObj.getRandomValues(randomBuffer);
+      var randomNumber = randomBuffer[0] / (0xffffffff + 1);
+      return randomNumber;
+    } else {
+      return Math.random();
+    }
+  }
+  
+  module.random = function() {
+    return random();
+  }
+  
+  function randomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(random() * (max - min)) + min;
+  }
+  
+  module.randomInt = function(min, max) {
+    return randomInt(min, max);
+  }
+  
+  function randomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(random() * (max - min + 1)) + min;
+  }
+  
+  module.randomIntInclusive = function(min, max) {
+    return randomIntInclusive(min, max);
+  }
 
   module.repeat = function(array, repetitions, unpack) {
 
@@ -1674,13 +1711,13 @@ jsPsych.randomization = (function() {
     for (var i = 0; i < random_shuffle.length - 2; i++) {
       if (equalityTest(random_shuffle[i], random_shuffle[i + 1])) {
         // neighbors are equal, pick a new random neighbor to swap (not the first or last element, to avoid edge cases)
-        var random_pick = Math.floor(Math.random() * (random_shuffle.length - 2)) + 1;
+        var random_pick = Math.floor(random() * (random_shuffle.length - 2)) + 1;
         // test to make sure the new neighbor isn't equal to the old one
         while (
           equalityTest(random_shuffle[i + 1], random_shuffle[random_pick]) ||
           (equalityTest(random_shuffle[i + 1], random_shuffle[random_pick + 1]) || equalityTest(random_shuffle[i + 1], random_shuffle[random_pick - 1]))
         ) {
-          random_pick = Math.floor(Math.random() * (random_shuffle.length - 2)) + 1;
+          random_pick = Math.floor(random() * (random_shuffle.length - 2)) + 1;
         }
         var new_neighbor = random_shuffle[random_pick];
         random_shuffle[random_pick] = random_shuffle[i + 1];
@@ -1726,7 +1763,7 @@ jsPsych.randomization = (function() {
 
     var samp = [];
     for (var i = 0; i < size; i++) {
-      var rnd = Math.random();
+      var rnd = random();
       var index = 0;
       while(rnd > cumulative_weights[index]) { index++; }
       samp.push(arr[index]);
@@ -1770,7 +1807,7 @@ jsPsych.randomization = (function() {
     var length = (typeof length == 'undefined') ? 32 : length;
     var chars = '0123456789abcdefghjklmnopqrstuvwxyz';
     for(var i = 0; i<length; i++){
-      result += chars[Math.floor(Math.random() * chars.length)];
+      result += chars[Math.floor(random() * chars.length)];
     }
     return result;
   }
@@ -1801,7 +1838,7 @@ jsPsych.randomization = (function() {
     while (m) {
 
       // Pick a remaining element…
-      i = Math.floor(Math.random() * m--);
+      i = Math.floor(random() * m--);
 
       // And swap it with the current element.
       t = copy_array[m];
