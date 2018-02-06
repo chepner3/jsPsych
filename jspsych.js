@@ -1592,6 +1592,19 @@ jsPsych.turk = (function() {
 jsPsych.randomization = (function() {
 
   var module = {};
+  
+  var cryptoObj = window.crypto || window.msCrypto;
+  
+  function random() {
+    if (typeof cryptoObj !== 'undefined') {
+      var randomBuffer = new Uint32Array(1);
+      cryptoObj.getRandomValues(randomBuffer);
+      var randomNumber = randomBuffer[0] / (0xffffffff + 1);
+      return randomNumber;
+    } else {
+      return Math.random();
+    }
+  }
 
   module.repeat = function(array, repetitions, unpack) {
 
