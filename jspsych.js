@@ -136,7 +136,7 @@ window.jsPsych = (function() {
     DOM_target = document.querySelector('#jspsych-content');
 
     // add tabIndex attribute to scope event listeners
-    opts.display_element.tabIndex = 0;
+    // opts.display_element.tabIndex = 0;
 
     // add CSS class to DOM_target
     if(opts.display_element.className.indexOf('jspsych-display-element') == -1){
@@ -154,9 +154,9 @@ window.jsPsych = (function() {
 
     // below code resets event listeners that may have lingered from
     // a previous incomplete experiment loaded in same DOM.
-    jsPsych.pluginAPI.reset(opts.display_element);
+    jsPsych.pluginAPI.reset(window);
     // create keyboard event listeners
-    jsPsych.pluginAPI.createKeyboardEventListeners(opts.display_element);
+    jsPsych.pluginAPI.createKeyboardEventListeners(window);
     // create listeners for user browser interaction
     jsPsych.data.createInteractionListeners();
 
